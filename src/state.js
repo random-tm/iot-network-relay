@@ -31,11 +31,10 @@ export const combineHistory = (newHistory) => {
 }
 
 const replayHistory = (newKeys) => {
+    computeDelays(newKeys);
     for(const key of newKeys){
         //Deep clone as it is possible to clear an old item from history while we are sending it
         const historyMessage = cloneDeep(emitHistory[key]);
-        const currentTime = new Date().getTime();
-        const delayTime = Math.abs(Number(key) - currentTime);
         setTimeout(() => {
             if(getReqType(historyMessage) === wsRouteTypes.Action){
                 action(historyMessage.params);
@@ -44,7 +43,18 @@ const replayHistory = (newKeys) => {
                 state(historyMessage.params);
                 write(key, historyMessage);
             }
-        }, delayTime);
+        }, historyMessage.delayTime);
+    }
+}
+
+const computeDelays = (keys) => {
+    const sortedKeys = keys.sort();
+    const currentTime = new Date().getTime();
+    for(let i = 0; i < sortedKeys.length; i++){
+        const key = sortedKeys[i];
+        const lastKey = sortedKeys[length - 1 - i];
+        const delayTime = Math.abs(Number(lastKey) - currentTime);
+        emitHistory[key].delayTime = delayTime;
     }
 }
 
