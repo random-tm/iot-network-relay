@@ -2,8 +2,7 @@ import action from "./routes/http/action.js";
 import state from "./routes/http/state.js";
 import { wsRouteTypes } from "./routes/ws.js";
 import { write } from "./db/local.js";
-import * as _ from "lodash";
-import { cloneDeep } from "lodash";
+import _ from "lodash";
 
 let emitHistory = {};
 
@@ -15,7 +14,7 @@ export const addToHistory = (historyItem) => {
 }
 
 export const setHistory = (history) => {
-    emitHistory = cloneDeep(history);
+    emitHistory = _.cloneDeep(history);
 }
 
 export const getHistory = () => {

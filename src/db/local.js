@@ -4,7 +4,11 @@ import fs from "fs";
 const dbPath = "./database";
 
 export const write = (id, data) => {
-    fs.writeFile(`${dbPath}/${id}`, JSON.stringify(data));
+    fs.writeFile(`${dbPath}/${id}`, JSON.stringify(data), (err) => {
+        if(err){
+            console.log(err);
+        }
+    });
 }
 
 export const readAll = () => {
@@ -16,13 +20,16 @@ export const readAll = () => {
             }
             const fileCount = files.length;
             for (const file of files) {
-                fs.readFile(`${dbPath}/${file}`, (data) => {
+                fs.readFile(`${dbPath}/${file}`, (err, data) => {
                     const parsedData = JSON.parse(data);
                     db[file] = parsedData;
                     if (Object.keys(db).length === fileCount) {
                         resolve(db);
                     }
                 })
+            }
+            if(files.length === 0){
+                resolve(db);
             }
         });
     })
@@ -36,7 +43,9 @@ setInterval(() => {
         for (const file of files) {
             const fileName = Number(file);
             if (fileName + msDay < time) {
-                fs.rm(`${dbPath}/${fileName}`, { recursive: true, force: true });
+                fs.rm(`${dbPath}/${fileName}`, { recursive: true, force: true }, (err) => {
+                    console.log(err);
+                });
             }
         }
     })
