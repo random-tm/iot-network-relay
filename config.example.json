@@ -1,0 +1,43 @@
+{
+    "encryptKey": "************************",
+    "publishKey": "************************",
+    "devices": [
+        {
+            "name": "WSL",
+            "address": "172.30.100.194",
+            "port": 8000,
+            "adapter": "eth0",
+            "mac": "00:15:5d:91:f1:27",
+            "recover": false,
+            "stateServer": {
+                "address": "",
+                "port": ""
+            }
+        },
+        {
+            "name": "Home Server",
+            "dynamic": "mydyanmic.dns.hostname",
+            "address": "192.168.1.25",
+            "port": 8000,
+            "adapter": "wlp8s0",
+            "mac": "ac:7b:a1:d4:c3:2b",
+            "recover": false,
+            "stateServer": {
+                "address": "",
+                "port": ""
+            }
+        },
+        {
+            "name": "Development Server",
+            "address": "***.***.***.***",
+            "port": 8000,
+            "adapter": "ens3",
+            "mac": "dynamic",
+            "recover": true,
+            "stateServer": {
+                "address": "",
+                "port": ""
+            }
+        }
+    ]
+}
